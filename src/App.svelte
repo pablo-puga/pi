@@ -1,6 +1,5 @@
 <script>
     import Decimal from 'decimal.js';
-    import { onMount } from 'svelte';
 
     import { nilakantha, leibniz, wallis, viete } from './algorithms';
     
@@ -15,55 +14,92 @@
     let wallisList = [];
     let vieteList = [];
     let ready = false;
-    let duration = 0;
 
-    onMount(async () => {
-        console.log('start');
+    const loadSeries = () => {
         const start = (new Date()).getTime();
         const nilakanthaGenerator = nilakantha();
         const leibnizGenerator = leibniz();
         const wallisGenerator = wallis();
-        const vietesGenerator = viete();
+        const vieteGenerator = viete();
         
-        let nilakanthaListTmp = [];
-        let leibnizListTmp = [];
-        let wallisListTmp = [];
-        let vieteListTmp = [];
-
         for (let it = 0; it < iterations; ++it) {
-            nilakanthaListTmp.push(nilakanthaGenerator.next().value);
-            leibnizListTmp.push(leibnizGenerator.next().value);
-            wallisListTmp.push(wallisGenerator.next().value);
-            vieteListTmp.push(vietesGenerator.next().value);
+            nilakanthaList.push(nilakanthaGenerator.next().value);
+            leibnizList.push(leibnizGenerator.next().value);
+            wallisList.push(wallisGenerator.next().value);
+            vieteList.push(vieteGenerator.next().value);
         }
 
         nilakanthaGenerator.return(undefined);
         leibnizGenerator.return(undefined);
         wallisGenerator.return(undefined);
-        vietesGenerator.return(undefined);
+        vieteGenerator.return(undefined);
 
-        nilakanthaList = nilakanthaListTmp;
-        leibnizList = leibnizListTmp;
-        wallisList = wallisListTmp;
-        vieteList = vieteListTmp;
+        nilakanthaList = nilakanthaList;
+        leibnizList = leibnizList;
+        wallisList = wallisList;
+        vieteList = vieteList;
 
-        duration = ((new Date()).getTime()) - start;
+        console.log(`Computed in ${((new Date()).getTime()) - start}ms`);
         ready = true;
-        console.log('end');
-    });
+    };
 
-    $: console.log(ready, duration, {
-        ni: nilakanthaList[nilakanthaList.length - 1],
-        le: leibnizList[leibnizList.length - 1],
-        wa: wallisList[wallisList.length - 1],
-        vi: vieteList[vieteList.length - 1],
-        pi
-    });
+    let selectedIndex = Math.ceil(iterations / 2);
 
-	let name = 'world';
+    const handleSelectedIndexChange = event => {
+        const newIndex = parseInt(event.target.value);
+        if (!Number.isInteger(newIndex)) {
+            selectedIndex = selectedIndex;
+            event.target.value = selectedIndex;
+            return;
+        }
+        if (newIndex < 1) {
+            selectedIndex = 1;
+            event.target.value = 1;
+            return;
+        }
+        if (newIndex > iterations) {
+            selectedIndex = iterations;
+            event.target.value = iterations;
+            return;
+        }
+        selectedIndex = newIndex;
+    };
 </script>
 
-<h1>Hello {name}!</h1>
+<svelte:window on:load={loadSeries}></svelte:window>
+
+<div>
+    <span>1</span>
+    <input type="range" bind:value={selectedIndex} min="1" max={iterations}/>
+    <span>{iterations}</span>
+</div>
+<div>
+    Showning iteration number <input type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1"/>
+</div>
+<table>
+    <tr>
+        <td>PI</td>
+        <td class="font-mono">{pi}</td>
+    </tr>
+    {#if ready}
+    <tr>
+        <td>viete</td>
+        <td class="font-mono">{vieteList[selectedIndex - 1]}</td>
+    </tr>
+    <tr>
+        <td>nilakantha</td>
+        <td class="font-mono">{nilakanthaList[selectedIndex - 1]}</td>
+    </tr>
+    <tr>
+        <td>wallis</td>
+        <td class="font-mono">{wallisList[selectedIndex - 1]}</td>
+    </tr>
+    <tr>
+        <td>leibniz</td>
+        <td class="font-mono">{leibnizList[selectedIndex - 1]}</td>
+    </tr>
+    {/if}
+</table>
 
 <style global lang="postcss">
     @tailwind base;
