@@ -39,3 +39,15 @@ export const wallis = function *() {
         yield pi.mul(2).toPrecision(Decimal.precision);
     }
 };
+
+export const viete = function *() {
+    let pi = new Decimal(1);
+    let prevNumerator = 0;
+
+    while (true) {
+        const numerator = (new Decimal(2)).add(prevNumerator).sqrt();
+        pi = pi.mul(numerator).div(2);
+        prevNumerator = numerator;
+        yield (new Decimal(2)).div(pi).toPrecision(Decimal.precision);
+    }
+};
