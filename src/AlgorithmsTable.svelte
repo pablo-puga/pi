@@ -1,8 +1,9 @@
 <script>
     import Decimal from 'decimal.js';
-    import { onMount } from 'svelte';
 
-    import { nilakantha, leibniz, wallis, viete } from './algorithms';    
+    import Loader from './Loader.svelte';
+
+    import { nilakantha, leibniz, wallis, viete } from './algorithms';
 
     const pi = '3.1415926535897932384626433832795028841971693993751';
 
@@ -16,34 +17,40 @@
     let wallisList = [];
     let vieteList = [];
     let ready = false;
+    let loading = false;
 
-    onMount(() => {
-        const start = (new Date()).getTime();
-        const nilakanthaGenerator = nilakantha();
-        const leibnizGenerator = leibniz();
-        const wallisGenerator = wallis();
-        const vieteGenerator = viete();
-        
-        for (let it = 0; it < iterations; ++it) {
-            nilakanthaList.push(nilakanthaGenerator.next().value);
-            leibnizList.push(leibnizGenerator.next().value);
-            wallisList.push(wallisGenerator.next().value);
-            vieteList.push(vieteGenerator.next().value);
-        }
+    const loadSeries = async () => {
+        loading = true;
 
-        nilakanthaGenerator.return(undefined);
-        leibnizGenerator.return(undefined);
-        wallisGenerator.return(undefined);
-        vieteGenerator.return(undefined);
+        setTimeout(() => {
+            const start = new Date().getTime();
+            const nilakanthaGenerator = nilakantha();
+            const leibnizGenerator = leibniz();
+            const wallisGenerator = wallis();
+            const vieteGenerator = viete();
 
-        nilakanthaList = nilakanthaList;
-        leibnizList = leibnizList;
-        wallisList = wallisList;
-        vieteList = vieteList;
+            for (let it = 0; it < iterations; ++it) {
+                nilakanthaList.push(nilakanthaGenerator.next().value);
+                leibnizList.push(leibnizGenerator.next().value);
+                wallisList.push(wallisGenerator.next().value);
+                vieteList.push(vieteGenerator.next().value);
+            }
 
-        console.log(`Computed in ${((new Date()).getTime()) - start}ms`);
-        ready = true;
-    });
+            nilakanthaGenerator.return(undefined);
+            leibnizGenerator.return(undefined);
+            wallisGenerator.return(undefined);
+            vieteGenerator.return(undefined);
+
+            nilakanthaList = nilakanthaList;
+            leibnizList = leibnizList;
+            wallisList = wallisList;
+            vieteList = vieteList;
+
+            console.log(`Computed in ${new Date().getTime() - start}ms`);
+            ready = true;
+            loading = false;
+        }, 10);
+    };
 
     let selectedIndex = Math.ceil(iterations / 2);
 
@@ -68,35 +75,40 @@
     };
 </script>
 
-<div>
-    <span>1</span>
-    <input type="range" bind:value={selectedIndex} min="1" max={iterations}/>
-    <span>{iterations}</span>
-</div>
-<div>
-    Showning iteration number <input type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1"/>
-</div>
-<table>
-    <tr>
-        <td>PI</td>
-        <td class="font-mono">{pi}</td>
-    </tr>
-    {#if ready}
-    <tr>
-        <td>viete</td>
-        <td class="font-mono">{vieteList[selectedIndex - 1]}</td>
-    </tr>
-    <tr>
-        <td>nilakantha</td>
-        <td class="font-mono">{nilakanthaList[selectedIndex - 1]}</td>
-    </tr>
-    <tr>
-        <td>wallis</td>
-        <td class="font-mono">{wallisList[selectedIndex - 1]}</td>
-    </tr>
-    <tr>
-        <td>leibniz</td>
-        <td class="font-mono">{leibnizList[selectedIndex - 1]}</td>
-    </tr>
-    {/if}
-</table>
+{#if ready}
+    <div>
+        <span>1</span>
+        <input type="range" bind:value={selectedIndex} min="1" max={iterations}/>
+        <span>{iterations}</span>
+    </div>
+    <div>
+        Showning iteration number <input type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1"/>
+    </div>
+    <table>
+        <tr>
+            <td>PI</td>
+            <td class="font-mono">{pi}</td>
+        </tr>
+        <tr>
+            <td>viete</td>
+            <td class="font-mono">{vieteList[selectedIndex - 1]}</td>
+        </tr>
+        <tr>
+            <td>nilakantha</td>
+            <td class="font-mono">{nilakanthaList[selectedIndex - 1]}</td>
+        </tr>
+        <tr>
+            <td>wallis</td>
+            <td class="font-mono">{wallisList[selectedIndex - 1]}</td>
+        </tr>
+        <tr>
+            <td>leibniz</td>
+            <td class="font-mono">{leibnizList[selectedIndex - 1]}</td>
+        </tr>
+    </table>
+{:else if loading}
+    <span>Loading...</span>
+    <Loader/>
+{:else}
+    <button on:click={loadSeries}>Generate values</button>
+{/if}
