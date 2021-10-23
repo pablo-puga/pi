@@ -1,5 +1,5 @@
 <script>
-    import AlgorithmsTable from './AlgorithmsTable.svelte';
+    import Algorithms from './Algorithms.svelte';
 
     const precision = 50;
     const iterations = 100000;
@@ -16,7 +16,7 @@
         You can see the evolution of the series by adjusting the slider or by writting down an iteration number between 1 and {iterations.toLocaleString()}.
     </p>
 </article>
-<AlgorithmsTable {iterations} {precision}/>
+<Algorithms {iterations} {precision}/>
 
 <style global lang="postcss">
     @tailwind base;
