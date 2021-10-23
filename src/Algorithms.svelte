@@ -75,6 +75,7 @@
     };
 </script>
 
+<section class="mt-5">
 {#if ready}
     <div>
         <span>1</span>
@@ -110,5 +111,30 @@
     <span>Loading...</span>
     <Loader/>
 {:else}
-    <button on:click={loadSeries}>Generate values</button>
+    <button class="generate-btn p-3 md:p-5" on:click={loadSeries}>
+        <span class="text-lg md:text-2xl relative z-10 capitalize">Generate values</span>
+    </button>
 {/if}
+</section>
+
+<style lang="postcss">
+    .generate-btn {
+        text-rendering: geometricprecision;
+        transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+        @apply appearance-none bg-gray-100 box-border inline-block text-base font-medium opacity-100 outline-none px-4 py-2 text-center select-none relative shadow rounded;
+    }
+
+    .generate-btn:before {
+        animation: opacityFallbackOut .5s step-end forwards;
+        clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+        content: "";
+        transform: translateZ(0);
+        transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+        @apply bg-gray-300 h-full w-full absolute left-0 top-0 rounded;
+    }
+
+    .generate-btn:hover:before {
+        animation: opacityFallbackIn 0s step-start forwards;
+        clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+    }
+</style>
