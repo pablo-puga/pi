@@ -75,7 +75,7 @@
     };
 </script>
 
-<section class="mt-5">
+<section class="mt-5 sm:mt-6 md:mt-7 lg:mt-8">
 {#if ready}
     <div>
         <span>1</span>
@@ -108,8 +108,10 @@
         </tr>
     </table>
 {:else if loading}
-    <span>Loading...</span>
-    <Loader/>
+    <div class="flex flex-col items-center">
+        <Loader/>
+        <span class="text-lg font-medium mt-2 text-gray-500 tracking-wider">Loading...</span>
+    </div>
 {:else}
     <button class="generate-btn p-3 md:p-5" on:click={loadSeries}>
         <span class="text-lg md:text-2xl relative z-10 capitalize">Generate values</span>

@@ -28,7 +28,7 @@
         height: 7px;
         border-radius: 50%;
         margin: -4px 0 0 -4px;
-        @apply bg-green-500;
+        @apply bg-gray-500;
     }
     .loader div:nth-child(1) {
         animation-delay: -0.036s;

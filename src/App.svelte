@@ -26,7 +26,7 @@
     @tailwind utilities;
 
     .page-title {
-        @apply text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl lg:font-bold filter drop-shadow transition ease-linear duration-150;
+        @apply text-2xl font-medium sm:text-3xl md:text-4xl lg:text-5xl lg:font-bold tracking-wider filter drop-shadow transition ease-linear duration-150;
     }
 
     .page-subtitle {
