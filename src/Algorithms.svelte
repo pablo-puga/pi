@@ -1,5 +1,7 @@
 <script>
     import Decimal from 'decimal.js';
+    import { fade } from 'svelte/transition';
+    import { quartIn, quartOut } from 'svelte/easing';
 
     import Loader from './Loader.svelte';
 
@@ -18,6 +20,7 @@
     let vieteList = [];
     let ready = false;
     let loading = false;
+    let selectedIndex = Math.ceil(iterations / 2);
 
     const loadSeries = async () => {
         loading = true;
@@ -52,8 +55,6 @@
         }, 10);
     };
 
-    let selectedIndex = Math.ceil(iterations / 2);
-
     const handleSelectedIndexChange = event => {
         const newIndex = parseInt(event.target.value);
         if (!Number.isInteger(newIndex)) {
@@ -75,40 +76,41 @@
     };
 </script>
 
-<section class="mt-5 sm:mt-6 md:mt-7 lg:mt-8">
+<section class:section-shadow={ready} class="mt-5 sm:mt-6 md:mt-7 lg:mt-8 w-full md:w-3/4 max-w-screen-md flex flex-col items-center">
 {#if ready}
-    <div>
-        <span>1</span>
-        <input type="range" bind:value={selectedIndex} min="1" max={iterations}/>
-        <span>{iterations}</span>
+    <div class="flex flex-row items-center w-full px-1 mt-1" in:fade={{ duration: 400, easing: quartIn }}>
+        <span class="flex-grow-0 md:text-lg font-medium w-16 pr-2 text-right">1</span>
+        <input type="range" bind:value={selectedIndex} min="1" max={iterations} class="flex-grow"/>
+        <span class="flex-grow-0 md:text-lg font-medium w-16 pl-2 text-left">{iterations.toLocaleString()}</span>
     </div>
-    <div>
-        Showning iteration number <input type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1"/>
+    <div class="mt-1 md:text-lg" in:fade={{ duration: 400, easing: quartIn }}>
+        <label for="selected-index">Showning iteration number</label>
+        <input id="selected-index" type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1" class="w-20"/>
     </div>
-    <table>
+    <table class="mt-4 lg:mt-6 md:text-lg mb-1" in:fade={{ duration: 400, easing: quartIn }}>
         <tr>
-            <td>PI</td>
-            <td class="font-mono">{pi}</td>
+            <th class="pr-2 text-left font-medium">Real Pi value</th>
+            <td class="tabular-nums tracking-wide lining-nums">{pi}</td>
         </tr>
-        <tr>
-            <td>viete</td>
-            <td class="font-mono">{vieteList[selectedIndex - 1]}</td>
+        <tr class="mt-1">
+            <th class="pr-2 text-left font-medium">Viete's serie</th>
+            <td class="tabular-nums tracking-wide lining-nums">{vieteList[selectedIndex - 1]}</td>
         </tr>
-        <tr>
-            <td>nilakantha</td>
-            <td class="font-mono">{nilakanthaList[selectedIndex - 1]}</td>
+        <tr class="mt-1">
+            <th class="pr-2 text-left font-medium">Nilakantha's serie</th>
+            <td class="tabular-nums tracking-wide lining-nums">{nilakanthaList[selectedIndex - 1]}</td>
         </tr>
-        <tr>
-            <td>wallis</td>
-            <td class="font-mono">{wallisList[selectedIndex - 1]}</td>
+        <tr class="mt-1">
+            <th class="pr-2 text-left font-medium">Wallis's serie</th>
+            <td class="tabular-nums tracking-wide lining-nums">{wallisList[selectedIndex - 1]}</td>
         </tr>
-        <tr>
-            <td>leibniz</td>
-            <td class="font-mono">{leibnizList[selectedIndex - 1]}</td>
+        <tr class="mt-1">
+            <th class="pr-2 text-left font-medium">Leibniz's serie</th>
+            <td class="tabular-nums tracking-wide lining-nums">{leibnizList[selectedIndex - 1]}</td>
         </tr>
     </table>
 {:else if loading}
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center" out:fade={{ duration: 50, easing: quartOut }}>
         <Loader/>
         <span class="text-lg font-medium mt-2 text-gray-500 tracking-wider">Loading...</span>
     </div>
