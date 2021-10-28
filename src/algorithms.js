@@ -30,11 +30,12 @@ export const nilakantha = function *() {
 
 export const wallis = function *() {
     let pi = new Decimal(1);
-    let next = 1;
+    let current = 0;
 
     while (true) {
-        const twiceNext = 2 * next++;
-        const multiplier = (new Decimal(twiceNext)).div(twiceNext - 1).mul(twiceNext).div(twiceNext + 1);
+        current += 2;
+        const multiplier = (new Decimal(current)).div(current - 1).mul(current).div(current + 1);
+        console.log(`${current}/${current - 1} x ${current}/${current + 1}`);
         pi = pi.mul(multiplier);
         yield pi.mul(2).toPrecision(Decimal.precision);
     }
