@@ -9,7 +9,6 @@
     import FaIcon from './FaIcon.svelte';
 
     import { nilakantha, leibniz, wallis, viete } from './algorithms';
-import { onMount } from 'svelte';
 
     const pi = '3.1415926535897932384626433832795028841971693993751';
 
@@ -64,7 +63,6 @@ import { onMount } from 'svelte';
             }, 150);
         }, 100);
     };
-    onMount(loadSeries);
 
     const handleSelectedIndexChange = event => {
         const newIndex = parseInt(event.target.value);
