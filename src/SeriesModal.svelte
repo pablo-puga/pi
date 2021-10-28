@@ -9,18 +9,22 @@
     export let title = '';
     export let paragraphs = [];
     export let imageSrc = '';
-    export let link = undefined;
-    export let hiddeCb = undefined;
+    export let links = [];
+    export let hideCb = undefined;
 </script>
 
-<div class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-70 flex justify-center items-center z-50" transition:fade={{ duration: 150, easing: quadInOut }}>
+<div
+    class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-70 flex justify-center items-center z-50"
+    transition:fade={{ duration: 150, easing: quadInOut }}
+    on:click|self={() => { if (hideCb) hideCb() }}
+>
     <article class="bg-white border border-white p-3 w-11/12 md:w-3/4 max-w-screen-md rounded bg-opacity-100 relative shadow">
         <FaIcon
             width={faTimes.icon[0]}
             height={faTimes.icon[1]}
             path={faTimes.icon[4]}
             classes="text-sm absolute top-3 right-3 text-gray-500 hover:text-gray-800 cursor-pointer"
-            on:click={() => { if (hiddeCb) hiddeCb() }}
+            on:click={() => { if (hideCb) hideCb() }}
         />
         <h1 class="text-lg font-medium md:text-xl">{title}</h1>
         <div class="text-justify mt-3">
@@ -34,10 +38,16 @@
             <figcaption class="text-sm text-gray-500">{`${title} formula`}</figcaption>
         </figure>
         {/if}
-        {#if link}
-        <small class="mt-4 flex flex-row items-center text-gray-500 hover:text-gray-800">
-            <FaIcon width={faLink.icon[0]} height={faLink.icon[1]} path={faLink.icon[4]} classes="text-xs"/>
-            <a href={link} class="underline ml-1">{link}</a>
+        {#if links}
+        <small class=" text-gray-500 hover:text-gray-800">
+            <ul>
+                {#each links as link}
+                <li class="mt-4 flex flex-row items-center flex-nowrap hitespace-nowrap overflow-ellipsis overflow-hidden">
+                    <FaIcon width={faLink.icon[0]} height={faLink.icon[1]} path={faLink.icon[4]} classes="text-xs"/>
+                    <a href={link} class="underline ml-1">{link}</a>
+                </li>
+                {/each}
+            </ul>
         </small>
         {/if}
     </article>

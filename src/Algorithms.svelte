@@ -7,6 +7,7 @@
 
     import Loader from './Loader.svelte';
     import FaIcon from './FaIcon.svelte';
+    import SeriesModal from './SeriesModal.svelte';
 
     import { nilakantha, leibniz, wallis, viete } from './algorithms';
 
@@ -25,6 +26,68 @@
     let loading = false;
     let started = false;
     let selectedIndex = Math.ceil(iterations / 2);
+    let displayModal = false;
+    let selectedModalData = undefined;
+
+    const closeModal = () => (displayModal = false);
+
+    const seriesDescriptions = {
+        leibniz: {
+            title: "Leibniz's Serie",
+            links: ["https://en.wikipedia.org/wiki/Leibniz_formula_for_π"],
+            paragraphs: [
+                `It is also called the Leibniz-Madhava series as it is a special case of a more general series expansion for the inverse tangent function, 
+                first discovered by the Indian mathematician Madhava of Sangamagrama in the 14th century, the specific case first published by Leibniz around 1676.`,
+            ],
+            imageSrc: "formulas-svgs/leibniz.svg",
+            hideCb: closeModal,
+        },
+        nilakantha: {
+            title: "Nilakantha's Serie",
+            links: [
+                "https://en.wikipedia.org/wiki/Pi#Infinite_series",
+                "https://en.wikipedia.org/wiki/Nilakantha_Somayaji",
+            ],
+            paragraphs: [
+                `The first written description of an infinite series that could be used to compute π was laid out in Sanskrit verse by Indian astronomer Nilakantha 
+                Somayaji in his Tantrasamgraha, around 1500 AD. The series are presented without proof, but proofs are presented in a later Indian work, Yuktibhāṣā, 
+                from around 1530 AD. Nilakantha attributes the series to an earlier Indian mathematician, Madhava of Sangamagrama, who lived c. 1350 - c. 1425.`,
+            ],
+            imageSrc: "formulas-svgs/nilakantha.svg",
+            hideCb: closeModal,
+        },
+        viete: {
+            title: "Viete's Serie",
+            links: ["https://en.wikipedia.org/wiki/Viète's_formula"],
+            paragraphs: [
+                `The formula is named after François Viète, who published it in 1593. As the first formula of European mathematics to represent an infinite process, 
+                it can be given a rigorous meaning as a limit expression, and marks the beginning of mathematical analysis. It has linear convergence, and can be 
+                used for calculations of π, but other methods before and since have led to greater accuracy. 
+                It has also been used in calculations of the behavior of systems of springs and masses, and as a motivating example for the concept of statistical independence.`,
+                `The formula can be derived as a telescoping product of either the areas or perimeters of nested polygons converging to a circle. 
+                Alternatively, repeated use of the half-angle formula from trigonometry leads to a generalized formula, discovered by Leonhard Euler, 
+                that has Viète's formula as a special case. Many similar formulas involving nested roots or infinite products are now known.`,
+            ],
+            imageSrc: "formulas-svgs/viete.svg",
+            hideCb: closeModal,
+        },
+        wallis: {
+            title: "Wallis' Serie",
+            links: [
+                "https://en.wikipedia.org/wiki/Wallis_product",
+                "https://en.wikipedia.org/wiki/John_Wallis",
+            ],
+            paragraphs: [
+                `Called Wallis' product, it is an infinite series published in 1656 by John Wallis.`,
+                `John Wallis (3 December [O.S. 23 November] 1616 - 8 November [O.S. 28 October] 1703) was an English clergyman and mathematician who is given partial credit for the 
+                development of infinitesimal calculus. Between 1643 and 1689 he served as chief cryptographer for Parliament and, later, the royal court. He is credited with 
+                introducing the symbol ∞ to represent the concept of infinity. He similarly used 1/∞ for an infinitesimal. John Wallis was a contemporary of Newton and one 
+                of the greatest intellectuals of the early renaissance of mathematics.`,
+            ],
+            imageSrc: "formulas-svgs/wallis.svg",
+            hideCb: closeModal,
+        },
+    };
 
     const loadSeries = async () => {
         loading = true;
@@ -83,6 +146,12 @@
         }
         selectedIndex = newIndex;
     };
+
+    const displayModalWithData = selectedData => {
+        if (!seriesDescriptions.hasOwnProperty(selectedData)) return;
+        selectedModalData = selectedData;
+        displayModal = true;
+    };
 </script>
 
 <section class:section-shadow={ready} class="mt-5 sm:mt-6 md:mt-7 lg:mt-8 w-full md:w-3/4 max-w-screen-md flex flex-col items-center">
@@ -103,48 +172,52 @@
         </tr>
         <tr class="mt-1">
             <th class="pr-2 text-left font-medium flex flex-row align-top">
-                Viete's serie 
+                {seriesDescriptions.viete.title} 
                 <FaIcon
                     height={faQuestionCircle.icon[1]}
                     width={faQuestionCircle.icon[0]}
                     path={faQuestionCircle.icon[4]}
                     classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                    on:click={() => displayModalWithData('viete')}
                 />
             </th>
             <td class="tabular-nums tracking-wide lining-nums">{vieteList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
             <th class="pr-2 text-left font-medium flex flex-row align-top">
-                Nilakantha's serie 
+                {seriesDescriptions.nilakantha.title} 
                 <FaIcon
                     height={faQuestionCircle.icon[1]}
                     width={faQuestionCircle.icon[0]}
                     path={faQuestionCircle.icon[4]}
                     classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                    on:click={() => displayModalWithData('nilakantha')}
                 />
             </th>
             <td class="tabular-nums tracking-wide lining-nums">{nilakanthaList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
             <th class="pr-2 text-left font-medium flex flex-row align-top">
-                Wallis's serie 
+                {seriesDescriptions.wallis.title}
                 <FaIcon
                     height={faQuestionCircle.icon[1]}
                     width={faQuestionCircle.icon[0]}
                     path={faQuestionCircle.icon[4]}
                     classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                    on:click={() => displayModalWithData('wallis')}
                 />
             </th>
             <td class="tabular-nums tracking-wide lining-nums">{wallisList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
             <th class="pr-2 text-left font-medium flex flex-row align-top">
-                Leibniz's serie 
+                {seriesDescriptions.leibniz.title} 
                 <FaIcon
                     height={faQuestionCircle.icon[1]}
                     width={faQuestionCircle.icon[0]}
                     path={faQuestionCircle.icon[4]}
                     classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                    on:click={() => displayModalWithData('leibniz')}
                 />
             </th>
             <td class="tabular-nums tracking-wide lining-nums">{leibnizList[selectedIndex - 1]}</td>
@@ -161,6 +234,9 @@
     </button>
 {/if}
 </section>
+{#if displayModal}
+<SeriesModal {...seriesDescriptions[selectedModalData]}/>
+{/if}
 
 <style lang="postcss">
     .generate-btn {
