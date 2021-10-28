@@ -24,6 +24,7 @@
     "tailwindcss": "^2.2.16"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "decimal.js": "^10.3.1",
     "sirv-cli": "^1.0.0"
   }

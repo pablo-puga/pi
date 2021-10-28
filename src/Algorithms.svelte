@@ -1,11 +1,15 @@
 <script>
     import Decimal from 'decimal.js';
+    import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
+
     import { fade } from 'svelte/transition';
     import { quartIn, quartOut } from 'svelte/easing';
 
     import Loader from './Loader.svelte';
+    import FaIcon from './FaIcon.svelte';
 
     import { nilakantha, leibniz, wallis, viete } from './algorithms';
+import { onMount } from 'svelte';
 
     const pi = '3.1415926535897932384626433832795028841971693993751';
 
@@ -60,6 +64,7 @@
             }, 150);
         }, 100);
     };
+    onMount(loadSeries);
 
     const handleSelectedIndexChange = event => {
         const newIndex = parseInt(event.target.value);
@@ -99,19 +104,51 @@
             <td class="tabular-nums tracking-wide lining-nums">{pi}</td>
         </tr>
         <tr class="mt-1">
-            <th class="pr-2 text-left font-medium">Viete's serie</th>
+            <th class="pr-2 text-left font-medium flex flex-row align-top">
+                Viete's serie 
+                <FaIcon
+                    height={faQuestionCircle.icon[1]}
+                    width={faQuestionCircle.icon[0]}
+                    path={faQuestionCircle.icon[4]}
+                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                />
+            </th>
             <td class="tabular-nums tracking-wide lining-nums">{vieteList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
-            <th class="pr-2 text-left font-medium">Nilakantha's serie</th>
+            <th class="pr-2 text-left font-medium flex flex-row align-top">
+                Nilakantha's serie 
+                <FaIcon
+                    height={faQuestionCircle.icon[1]}
+                    width={faQuestionCircle.icon[0]}
+                    path={faQuestionCircle.icon[4]}
+                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                />
+            </th>
             <td class="tabular-nums tracking-wide lining-nums">{nilakanthaList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
-            <th class="pr-2 text-left font-medium">Wallis's serie</th>
+            <th class="pr-2 text-left font-medium flex flex-row align-top">
+                Wallis's serie 
+                <FaIcon
+                    height={faQuestionCircle.icon[1]}
+                    width={faQuestionCircle.icon[0]}
+                    path={faQuestionCircle.icon[4]}
+                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                />
+            </th>
             <td class="tabular-nums tracking-wide lining-nums">{wallisList[selectedIndex - 1]}</td>
         </tr>
         <tr class="mt-1">
-            <th class="pr-2 text-left font-medium">Leibniz's serie</th>
+            <th class="pr-2 text-left font-medium flex flex-row align-top">
+                Leibniz's serie 
+                <FaIcon
+                    height={faQuestionCircle.icon[1]}
+                    width={faQuestionCircle.icon[0]}
+                    path={faQuestionCircle.icon[4]}
+                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
+                />
+            </th>
             <td class="tabular-nums tracking-wide lining-nums">{leibnizList[selectedIndex - 1]}</td>
         </tr>
     </table>
