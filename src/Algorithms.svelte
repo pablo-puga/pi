@@ -165,63 +165,65 @@
         <label for="selected-index">Showning iteration number</label>
         <input id="selected-index" type="number" value={selectedIndex} on:change={handleSelectedIndexChange} min="1" max={iterations} step="1" class="w-20"/>
     </div>
-    <table class="mt-4 lg:mt-6 md:text-lg mb-1" in:fade={{ duration: 400, easing: quartIn }}>
-        <tr>
-            <th class="pr-2 text-left font-medium">Real Pi value</th>
-            <td class="tabular-nums tracking-wide lining-nums">{pi}</td>
-        </tr>
-        <tr class="mt-1">
-            <th class="pr-2 text-left font-medium flex flex-row align-top">
-                {seriesDescriptions.viete.title} 
-                <FaIcon
-                    height={faQuestionCircle.icon[1]}
-                    width={faQuestionCircle.icon[0]}
-                    path={faQuestionCircle.icon[4]}
-                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
-                    on:click={() => displayModalWithData('viete')}
-                />
-            </th>
-            <td class="tabular-nums tracking-wide lining-nums">{vieteList[selectedIndex - 1]}</td>
-        </tr>
-        <tr class="mt-1">
-            <th class="pr-2 text-left font-medium flex flex-row align-top">
-                {seriesDescriptions.nilakantha.title} 
-                <FaIcon
-                    height={faQuestionCircle.icon[1]}
-                    width={faQuestionCircle.icon[0]}
-                    path={faQuestionCircle.icon[4]}
-                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
-                    on:click={() => displayModalWithData('nilakantha')}
-                />
-            </th>
-            <td class="tabular-nums tracking-wide lining-nums">{nilakanthaList[selectedIndex - 1]}</td>
-        </tr>
-        <tr class="mt-1">
-            <th class="pr-2 text-left font-medium flex flex-row align-top">
-                {seriesDescriptions.wallis.title}
-                <FaIcon
-                    height={faQuestionCircle.icon[1]}
-                    width={faQuestionCircle.icon[0]}
-                    path={faQuestionCircle.icon[4]}
-                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
-                    on:click={() => displayModalWithData('wallis')}
-                />
-            </th>
-            <td class="tabular-nums tracking-wide lining-nums">{wallisList[selectedIndex - 1]}</td>
-        </tr>
-        <tr class="mt-1">
-            <th class="pr-2 text-left font-medium flex flex-row align-top">
-                {seriesDescriptions.leibniz.title} 
-                <FaIcon
-                    height={faQuestionCircle.icon[1]}
-                    width={faQuestionCircle.icon[0]}
-                    path={faQuestionCircle.icon[4]}
-                    classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-green-700"
-                    on:click={() => displayModalWithData('leibniz')}
-                />
-            </th>
-            <td class="tabular-nums tracking-wide lining-nums">{leibnizList[selectedIndex - 1]}</td>
-        </tr>
+    <table class="mt-4 lg:mt-6 md:text-lg mb-1 block overflow-x-auto whitespace-nowrap max-w-full" in:fade={{ duration: 400, easing: quartIn }}>
+        <tbody class="table w-full">
+            <tr>
+                <th class="pr-2 text-left font-medium">Real Pi value</th>
+                <td class="tabular-nums tracking-wide lining-nums">{pi}</td>
+            </tr>
+            <tr class="mt-1">
+                <th class="pr-2 text-left font-medium flex flex-row align-top">
+                    {seriesDescriptions.viete.title} 
+                    <FaIcon
+                        height={faQuestionCircle.icon[1]}
+                        width={faQuestionCircle.icon[0]}
+                        path={faQuestionCircle.icon[4]}
+                        classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-blue-700"
+                        on:click={() => displayModalWithData('viete')}
+                    />
+                </th>
+                <td class="tabular-nums tracking-wide lining-nums">{vieteList[selectedIndex - 1]}</td>
+            </tr>
+            <tr class="mt-1">
+                <th class="pr-2 text-left font-medium flex flex-row align-top">
+                    {seriesDescriptions.nilakantha.title} 
+                    <FaIcon
+                        height={faQuestionCircle.icon[1]}
+                        width={faQuestionCircle.icon[0]}
+                        path={faQuestionCircle.icon[4]}
+                        classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-blue-700"
+                        on:click={() => displayModalWithData('nilakantha')}
+                    />
+                </th>
+                <td class="tabular-nums tracking-wide lining-nums">{nilakanthaList[selectedIndex - 1]}</td>
+            </tr>
+            <tr class="mt-1">
+                <th class="pr-2 text-left font-medium flex flex-row align-top">
+                    {seriesDescriptions.wallis.title}
+                    <FaIcon
+                        height={faQuestionCircle.icon[1]}
+                        width={faQuestionCircle.icon[0]}
+                        path={faQuestionCircle.icon[4]}
+                        classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-blue-700"
+                        on:click={() => displayModalWithData('wallis')}
+                    />
+                </th>
+                <td class="tabular-nums tracking-wide lining-nums">{wallisList[selectedIndex - 1]}</td>
+            </tr>
+            <tr class="mt-1">
+                <th class="pr-2 text-left font-medium flex flex-row align-top">
+                    {seriesDescriptions.leibniz.title} 
+                    <FaIcon
+                        height={faQuestionCircle.icon[1]}
+                        width={faQuestionCircle.icon[0]}
+                        path={faQuestionCircle.icon[4]}
+                        classes="text-sm ml-1 mt-1 cursor-pointer transition-color duration-200 hover:text-blue-700"
+                        on:click={() => displayModalWithData('leibniz')}
+                    />
+                </th>
+                <td class="tabular-nums tracking-wide lining-nums">{leibnizList[selectedIndex - 1]}</td>
+            </tr>
+        </tbody>
     </table>
 {:else if loading}
     <div class="flex flex-col items-center" out:fade={{ duration: 200, easing: quartOut }}>
