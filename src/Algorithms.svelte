@@ -20,10 +20,12 @@
     let vieteList = [];
     let ready = false;
     let loading = false;
+    let started = false;
     let selectedIndex = Math.ceil(iterations / 2);
 
     const loadSeries = async () => {
         loading = true;
+        started = true;
 
         setTimeout(() => {
             const start = new Date().getTime();
@@ -50,9 +52,13 @@
             vieteList = vieteList;
 
             console.log(`Computed in ${new Date().getTime() - start}ms`);
-            ready = true;
+            
             loading = false;
-        }, 10);
+
+            setTimeout(() => {
+                ready = true;
+            }, 150);
+        }, 100);
     };
 
     const handleSelectedIndexChange = event => {
@@ -78,7 +84,7 @@
 
 <section class:section-shadow={ready} class="mt-5 sm:mt-6 md:mt-7 lg:mt-8 w-full md:w-3/4 max-w-screen-md flex flex-col items-center">
 {#if ready}
-    <div class="flex flex-row items-center w-full px-1 mt-1" in:fade={{ duration: 400, easing: quartIn }}>
+    <div class="flex flex-row items-center w-full px-3 mt-1" in:fade={{ duration: 400, easing: quartIn }}>
         <span class="flex-grow-0 md:text-lg font-medium w-16 pr-2 text-right">1</span>
         <input type="range" bind:value={selectedIndex} min="1" max={iterations} class="flex-grow"/>
         <span class="flex-grow-0 md:text-lg font-medium w-16 pl-2 text-left">{iterations.toLocaleString()}</span>
@@ -110,11 +116,11 @@
         </tr>
     </table>
 {:else if loading}
-    <div class="flex flex-col items-center" out:fade={{ duration: 50, easing: quartOut }}>
+    <div class="flex flex-col items-center" out:fade={{ duration: 200, easing: quartOut }}>
         <Loader/>
         <span class="text-lg font-medium mt-2 text-gray-500 tracking-wider">Loading...</span>
     </div>
-{:else}
+{:else if !started}
     <button class="generate-btn p-3 md:p-5" on:click={loadSeries}>
         <span class="text-lg md:text-2xl relative z-10 capitalize">Generate values</span>
     </button>
