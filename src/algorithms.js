@@ -35,7 +35,6 @@ export const wallis = function *() {
     while (true) {
         current += 2;
         const multiplier = (new Decimal(current)).div(current - 1).mul(current).div(current + 1);
-        console.log(`${current}/${current - 1} x ${current}/${current + 1}`);
         pi = pi.mul(multiplier);
         yield pi.mul(2).toPrecision(Decimal.precision);
     }
