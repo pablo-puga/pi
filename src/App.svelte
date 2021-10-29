@@ -1,9 +1,29 @@
 <script>
     import Algorithms from './Algorithms.svelte';
+    import CookieConsentBanner from './CookieConsentBanner.svelte';
 
+    import { cookieConsent } from './cookie-store';
+    
     const precision = 50;
     const iterations = 100000;
+
+    $: showCookieConsentBanner = $cookieConsent === undefined;
 </script>
+
+<svelte:head>
+    {#if $cookieConsent !== false}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F4YTG3EY7B"></script>
+    <script>
+        const isProduction = () => JSON.parse(isProd);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-F4YTG3EY7B', { debug_mode: !isProduction() });
+    </script>
+    {/if}
+</svelte:head>
 
 <main class="flex flex-col items-center font-sans text-gray-800 pt-4 sm:pt-8 md:pt-16 lg:pt-32">
     <article class="px-3 md:px-2 lg:px-0 md:w-3/4 max-w-screen-md text-center">
@@ -22,6 +42,9 @@
     </article>
     <Algorithms {iterations} {precision}/>
 </main>
+{#if showCookieConsentBanner}
+<CookieConsentBanner/>
+{/if}
 
 <style global lang="postcss">
     @tailwind base;
