@@ -1,5 +1,6 @@
 <script>
     import { faTools } from '@fortawesome/free-solid-svg-icons';
+    import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
     import Algorithms from './Algorithms.svelte';
     import CookieConsentBanner from './CookieConsentBanner.svelte';
@@ -53,6 +54,10 @@
         </div>
     </article>
     <Algorithms {iterations} {precision}/>
+    <footer class="text-center mt-14 text-sm">
+        <p>Check the project code at <a class="inline-flex flex-row justify-center content-center items-center flex-nowrap whitespace-nowrap" href="https://github.com/pablo-puga/pi"><FaIcon path={faGithub.icon[4]} width={faGithub.icon[0]} height={faGithub.icon[1]}/> pablo-puga/pi</a></p>
+        <p>You can also check my main site! <a href="https://pablopugaperalta.com">https://pablopugaperalta.com</a></p>
+    </footer>
 </main>
 {#if showCookieConsentBanner}
 <CookieConsentBanner/>
@@ -77,6 +82,10 @@
 
     .settings-icon {
         @apply text-gray-700 fixed top-1 right-1 w-8 h-8 text-xl transition-colors duration-200;
+    }
+
+    footer a {
+        @apply text-gray-500 underline hover:text-black transition-colors duration-200;
     }
 </style>
 	
