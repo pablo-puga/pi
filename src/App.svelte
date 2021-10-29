@@ -1,6 +1,10 @@
 <script>
+    import { faTools } from '@fortawesome/free-solid-svg-icons';
+
     import Algorithms from './Algorithms.svelte';
     import CookieConsentBanner from './CookieConsentBanner.svelte';
+    import FaIcon from './FaIcon.svelte';
+    import Settings from './Settings.svelte';
 
     import { cookieConsent } from './cookie-store';
     
@@ -8,6 +12,7 @@
     const iterations = 100000;
 
     $: showCookieConsentBanner = $cookieConsent === undefined;
+    let displaySettings = false;
 </script>
 
 <svelte:head>
@@ -25,7 +30,14 @@
     {/if}
 </svelte:head>
 
-<main class="flex flex-col items-center font-sans text-gray-800 pt-4 sm:pt-8 md:pt-16 lg:pt-32">
+<main class="flex flex-col items-center font-sans text-gray-800 pt-4 sm:pt-8 md:pt-16 lg:pt-32 relative">
+    {#if displaySettings}
+        <Settings bind:displaySettings={displaySettings}/>
+    {:else}
+        <button class="settings-icon hover:text-indigo-700 hover:filter hover:drop-shadow-lg" on:click={() => (displaySettings = !displaySettings)}>
+            <FaIcon path={faTools.icon[4]} width={faTools.icon[0]} height={faTools.icon[1]}/>
+        </button>
+    {/if}
     <article class="px-3 md:px-2 lg:px-0 md:w-3/4 max-w-screen-md text-center">
         <h1 class="page-title">Pi Convergence</h1>
         <h2 class="page-subtitle">Showcase of different algorithms' convergence</h2>
@@ -61,6 +73,10 @@
 
     .section-shadow {
         @apply md:shadow rounded p-3 bg-white;
+    }
+
+    .settings-icon {
+        @apply text-gray-700 fixed top-1 right-1 w-8 h-8 text-xl transition-colors duration-200;
     }
 </style>
 	
