@@ -2,6 +2,10 @@
   "name": "pi-algorithms",
   "version": "0.0.0",
   "private": true,
+  "author": {
+    "name": "Pablo Puga",
+    "url": "https://pablopugaperalta.com"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -m inline -c -w",
