@@ -39,10 +39,10 @@
         </figure>
         {/if}
         {#if links}
-        <small class=" text-gray-500 hover:text-gray-800">
+        <small class=" text-gray-500 hover:text-gray-800 mt-4">
             <ul>
                 {#each links as link}
-                <li class="mt-4 flex flex-row items-center flex-nowrap hitespace-nowrap overflow-ellipsis overflow-hidden">
+                <li class=" flex flex-row items-center flex-nowrap hitespace-nowrap overflow-ellipsis overflow-hidden">
                     <FaIcon width={faLink.icon[0]} height={faLink.icon[1]} path={faLink.icon[4]} classes="text-xs"/>
                     <a href={link} class="underline ml-1">{link}</a>
                 </li>
