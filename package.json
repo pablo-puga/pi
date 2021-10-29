@@ -1,6 +1,6 @@
 {
   "name": "pi-algorithms",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "author": {
     "name": "Pablo Puga",
@@ -9,7 +9,9 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -m inline -c -w",
-    "start": "sirv public --no-clear"
+    "start": "sirv public --no-clear",
+		"publish": "gh-pages -d public/",
+		"deploy": "npm run build && npm run publish"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -17,6 +19,7 @@
     "@rollup/plugin-replace": "^3.0.0",
     "autoprefixer": "^10.3.6",
     "cssnano": "^5.0.8",
+    "gh-pages": "^3.2.3",
     "postcss": "^8.3.8",
     "postcss-load-config": "^3.1.0",
     "rollup": "^2.3.4",
